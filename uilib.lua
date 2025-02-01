@@ -87,7 +87,7 @@ function Library:CreateWindow(name)
 
         local Txt = Instance.new("TextLabel")
         Txt.Name = "Txt"
-        Txt.Parent = Banner
+        Txt.Parent = Button
         Txt.AnchorPoint = Vector2.new(0.5, 0.5)
         Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Txt.BackgroundTransparency = 1.000
@@ -125,7 +125,7 @@ function Library:CreateWindow(name)
 
         local Txt = Instance.new("TextLabel")
         Txt.Name = "Txt"
-        Txt.Parent = Banner
+        Txt.Parent = Toggle
         Txt.AnchorPoint = Vector2.new(0.5, 0.5)
         Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Txt.BackgroundTransparency = 1.000
@@ -142,7 +142,7 @@ function Library:CreateWindow(name)
 
         local Button = Instance.new("ImageButton")
         Button.Name = "Switch"
-        Button.Parent = toggle
+        Button.Parent = Toggle
         Button.AnchorPoint = Vector2.new(1, 0.5)
         Button.BackgroundTransparency = 1
         Button.Position = UDim2.new(0.971, 0, 0.5, 0)
@@ -179,7 +179,7 @@ function Library:CreateWindow(name)
             options.Callback(state)
         end)
 
-        return toggle
+        return Toggle
     end
 
     function lib:Slider(options)
@@ -273,7 +273,7 @@ function Library:CreateWindow(name)
             if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
                 local mouse = inputService:GetMouseLocation()
                 local absoluteX = slider.AbsolutePosition.X
-                local percent = (mouse.X - absoluteX) / slider.AbsoluteSize.X
+                local percent = (mouse.X - absoluteX) / Slider.AbsoluteSize.X
                 update(min + (max - min) * percent)
             end
         end)
