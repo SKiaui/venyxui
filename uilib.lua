@@ -1,335 +1,265 @@
-local HitPercentages = {
-    Perfect = 0;
-    Great = 0;
-    Okay = 0;
-    Miss = 0;
-    Combined = 0;
-}
+local Library = {}
 
-local HeldNotes = {}
+function Library:CreateWindow(name)
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = name
+    ScreenGui.Parent = game:GetService("CoreGui")
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-local Bounds = {
-    Perfect = -20;
-    Great = -50;
-    Okay = -100;
-    Miss = -500;
-}
+    -- Main Container
+    local Vigil = Instance.new("ImageLabel")
+    Vigil.Name = "Vigil"
+    Vigil.Parent = ScreenGui
+    Vigil.AnchorPoint = Vector2.new(0.5, 0.5)
+    Vigil.BackgroundTransparency = 1
+    Vigil.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Vigil.Size = UDim2.new(0.534, 0, 0.608, 0)
+    Vigil.Image = "rbxassetid://119971145457961"
+    Vigil.ScaleType = Enum.ScaleType.Fit
 
-local RELEASE_TRACK = 'release_track_index';
-local PRESS_TRACK = 'press_track_index';
-local TEST_HIT = 'get_delta_time_from_hit_time';
-local TEST_RELEASE = 'get_delta_time_from_release_time';
-visit_webnpc = nil
-WebNPCManager = nil
+    -- Aspect Ratio Constraint
+    local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+    UIAspectRatioConstraint.Parent = Vigil
+    UIAspectRatioConstraint.AspectRatio = 1.562
 
-function GetHitPercentage(a) 
-    return HitPercentages[a] 
-end
+    -- Content Frame
+    local Content = Instance.new("Frame")
+    Content.Name = "Content"
+    Content.Parent = Vigil
+    Content.AnchorPoint = Vector2.new(0.5, 0.5)
+    Content.BackgroundTransparency = 1
+    Content.Position = UDim2.new(0.5, 0, 0.562, 0)
+    Content.Size = UDim2.new(1, 0, 0.876, 0)
 
-function Calculate(a, b, c, d)
-    local Total = a + b + c + d
-    if Total > 0 then
-        return a / Total * 100, b / Total * 100, c / Total * 100, d / Total * 100
+    -- Options Tab
+    local OptionsTap = Instance.new("ImageLabel")
+    OptionsTap.Name = "OptionsTap"
+    OptionsTap.Parent = Content
+    OptionsTap.AnchorPoint = Vector2.new(0, 0.5)
+    OptionsTap.BackgroundTransparency = 1
+    OptionsTap.Position = UDim2.new(0.353, 0, 0.47, 0)
+    OptionsTap.Size = UDim2.new(0.647, 0, 0.942, 0)
+    OptionsTap.Image = "rbxassetid://114891277539091"
+    OptionsTap.ScaleType = Enum.ScaleType.Fit
+
+    -- Scrolling Frame
+    local Scroller = Instance.new("ScrollingFrame")
+    Scroller.Name = "Scroller"
+    Scroller.Parent = OptionsTap
+    Scroller.AnchorPoint = Vector2.new(0.5, 0.5)
+    Scroller.BackgroundTransparency = 1
+    Scroller.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Scroller.Size = UDim2.new(1, 0, 1, 0)
+    Scroller.CanvasSize = UDim2.new(0, 0, 2, 0)
+    Scroller.ScrollBarThickness = 8
+
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Parent = Scroller
+    UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0.024, 0)
+
+    local lib = {
+        Elements = {},
+        Callbacks = {}
+    }
+
+    -- Button Component
+    function lib:Button(options)
+        local button = Instance.new("ImageButton")
+        button.Name = options.Name
+        button.Parent = Scroller
+        button.AnchorPoint = Vector2.new(0.5, 0.5)
+        button.BackgroundTransparency = 1
+        button.Size = UDim2.new(0.937, 0, 0.111, 0)
+        button.Image = "rbxassetid://81214913856279"
+        button.ScaleType = Enum.ScaleType.Fit
+
+        local Txt = Instance.new("TextLabel")
+        Txt.Name = "Text"
+        Txt.Parent = button
+        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
+        Txt.BackgroundTransparency = 1
+        Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
+        Txt.Size = UDim2.new(0.936, 0, 0.467, 0)
+        Txt.Font = Enum.Font.GothamMedium
+        Txt.Text = options.Name
+        Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.TextScaled = true
+        Txt.TextSize = 14
+        Txt.TextWrapped = true
+        Txt.TextXAlignment = Enum.TextXAlignment.Left
+
+        button.MouseButton1Click:Connect(options.Callback)
+        return button
     end
-    return 0, 0, 0, 0
-end
 
-Utilities = {
+    -- Toggle Component
+    function lib:Toggle(options)
+        local toggle = Instance.new("ImageLabel")
+        toggle.Name = options.Name
+        toggle.Parent = Scroller
+        toggle.AnchorPoint = Vector2.new(0.5, 0.5)
+        toggle.BackgroundTransparency = 1
+        toggle.Size = UDim2.new(0.937, 0, 0.111, 0)
+        toggle.Image = "rbxassetid://81214913856279"
+        toggle.ScaleType = Enum.ScaleType.Fit
 
-    get_target_delay_from_noteresult = function(noteresult)
-        return Bounds[noteresult]
-    end;
-    
-    get_noteresult = function()
-
-        local P, G, O, M = Calculate(GetHitPercentage("Perfect"), GetHitPercentage("Great"), GetHitPercentage("Okay"), GetHitPercentage("Miss"))
-        local Target = P + G + O + M
-        local Total = 0
+        local state = options.Default or false
         
-        local ChanceTBL = {}
-        local chs = {"Miss", "Okay", "Great", "Perfect"}
+        -- Toggle Text
+        local Txt = Instance.new("TextLabel")
+        Txt.Name = "Text"
+        Txt.Parent = toggle
+        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
+        Txt.BackgroundTransparency = 1
+        Txt.Position = UDim2.new(0.369, 0, 0.5, 0)
+        Txt.Size = UDim2.new(0.673, 0, 0.467, 0)
+        Txt.Font = Enum.Font.GothamMedium
+        Txt.Text = options.Name
+        Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.TextScaled = true
+        Txt.TextSize = 14
+        Txt.TextWrapped = true
+        Txt.TextXAlignment = Enum.TextXAlignment.Left
 
-        for i,v in next, {M, O, G, P} do 
-            if v > 0 then 
-                ChanceTBL[chs[i]] = v
-            end
-        end
+        -- Toggle Switch
+        local Button = Instance.new("ImageButton")
+        Button.Name = "Switch"
+        Button.Parent = toggle
+        Button.AnchorPoint = Vector2.new(1, 0.5)
+        Button.BackgroundTransparency = 1
+        Button.Position = UDim2.new(0.971, 0, 0.5, 0)
+        Button.Size = UDim2.new(0.108, 0, 0.533, 0)
+        Button.Image = "rbxassetid://123317618042392"
+        Button.ScaleType = Enum.ScaleType.Fit
 
-        local Entries = {}
-        for i,v in next, ChanceTBL do
-            Entries[i] = {Min = Total, Max = Total + v}
-            Total = Total + v
-        end
+        local Off = Instance.new("ImageLabel")
+        Off.Name = "Off"
+        Off.Parent = Button
+        Off.AnchorPoint = Vector2.new(0, 0.5)
+        Off.BackgroundTransparency = 1
+        Off.Position = UDim2.new(0.06, 0, 0.5, 0)
+        Off.Size = UDim2.new(0.388, 0, 0.813, 0)
+        Off.Image = "rbxassetid://112376976170886"
+        Off.ScaleType = Enum.ScaleType.Fit
+        Off.Visible = not state
+
+        local On = Instance.new("ImageLabel")
+        On.Name = "On"
+        On.Parent = Button
+        On.AnchorPoint = Vector2.new(1, 0.5)
+        On.BackgroundTransparency = 1
+        On.Position = UDim2.new(0.94, 0, 0.5, 0)
+        On.Size = UDim2.new(0.388, 0, 0.813, 0)
+        On.Image = "rbxassetid://112376976170886"
+        On.ScaleType = Enum.ScaleType.Fit
+        On.Visible = state
+
+        Button.MouseButton1Click:Connect(function()
+            state = not state
+            On.Visible = state
+            Off.Visible = not state
+            options.Callback(state)
+        end)
+
+        return toggle
+    end
+
+    -- Slider Component
+    function lib:Slider(options)
+        local slider = Instance.new("ImageLabel")
+        slider.Name = options.Name
+        slider.Parent = Scroller
+        slider.AnchorPoint = Vector2.new(0.5, 0.5)
+        slider.BackgroundTransparency = 1
+        slider.Size = UDim2.new(0.937, 0, 0.111, 0)
+        slider.Image = "rbxassetid://81214913856279"
+        slider.ScaleType = Enum.ScaleType.Fit
+
+        local min = options.Min or 0
+        local max = options.Max or 100
+        local value = options.Default or min
         
-        local Number = math.random(0, math.floor(Target));
+        -- Slider Text
+        local Txt = Instance.new("TextLabel")
+        Txt.Name = "Text"
+        Txt.Parent = slider
+        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
+        Txt.BackgroundTransparency = 1
+        Txt.Position = UDim2.new(0.28, 0, 0.5, 0)
+        Txt.Size = UDim2.new(0.496, 0, 0.466, 0)
+        Txt.Font = Enum.Font.GothamMedium
+        Txt.Text = options.Name
+        Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.TextScaled = true
+        Txt.TextSize = 14
+        Txt.TextWrapped = true
+        Txt.TextXAlignment = Enum.TextXAlignment.Left
 
-        for i,v in next, Entries do
-            if v.Min <= Number and v.Max >= Number then
-                return i
+        -- Progress Bar
+        local LoadingBar = Instance.new("ImageLabel")
+        LoadingBar.Name = "LoadingBar"
+        LoadingBar.Parent = slider
+        LoadingBar.AnchorPoint = Vector2.new(1, 0.5)
+        LoadingBar.BackgroundTransparency = 1
+        LoadingBar.Position = UDim2.new(0.986, 0, 0.5, 0)
+        LoadingBar.Size = UDim2.new(0.457, 0, 0.716, 0)
+        LoadingBar.Image = "rbxassetid://117462785670806"
+        LoadingBar.ScaleType = Enum.ScaleType.Fit
+
+        local TxtValue = Instance.new("TextLabel")
+        TxtValue.Name = "Value"
+        TxtValue.Parent = LoadingBar
+        TxtValue.AnchorPoint = Vector2.new(0.5, 0.5)
+        TxtValue.BackgroundTransparency = 1
+        TxtValue.Position = UDim2.new(0.5, 0, 0.5, 0)
+        TxtValue.Size = UDim2.new(0.898, 0, 0.488, 0)
+        TxtValue.Font = Enum.Font.Gotham
+        TxtValue.Text = tostring(value)
+        TxtValue.TextColor3 = Color3.fromRGB(170, 170, 170)
+        TxtValue.TextScaled = true
+        TxtValue.TextSize = 14
+        TxtValue.TextWrapped = true
+        TxtValue.TextXAlignment = Enum.TextXAlignment.Left
+
+        -- Slider Logic
+        local dragging = false
+        local inputService = game:GetService("UserInputService")
+
+        local function update(value)
+            value = math.clamp(value, min, max)
+            TxtValue.Text = tostring(math.floor(value))
+            options.Callback(value)
+        end
+
+        slider.MouseButton1Down:Connect(function()
+            dragging = true
+            local mouse = inputService:GetMouseLocation()
+            local absoluteX = slider.AbsolutePosition.X
+            local percent = (mouse.X - absoluteX) / slider.AbsoluteSize.X
+            update(min + (max - min) * percent)
+        end)
+
+        inputService.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = false
             end
-        end
-    end;
+        end)
 
-    updatehitpct = function()
-        local P, G, O, M = GetHitPercentage('Perfect'), GetHitPercentage('Great'), GetHitPercentage('Okay'), GetHitPercentage('Miss')
-        HitPercentages.Combined = P + G + O + M
-    end;
-
-    determine = function(key, constants)
-        local finding
-    
-        if (key == RELEASE_TRACK) then
-            finding = 'release'
-        elseif (key == PRESS_TRACK) then
-            finding = 'press'
-        elseif (key == TEST_HIT) then
-            finding = 'get_delta_time_from_hit_time'
-        elseif (key == TEST_RELEASE) then
-            finding = 'get_delta_time_from_release_time'
-        end
-    
-        if finding == nil then return false end
-    
-        if table.find(constants, finding) then 
-            return true 
-        end
-        
-        return false
-    end;
-    
-    get_notes = function(tracksystem)
-        for i,v in next, tracksystem do 
-            if type(v) == "function" then 
-                local c = getconstants(v)
-                if table.find(c, "do_remove") and table.find(c, "clear") then
-                    return getupvalue(v, 1)
-                end 
-            end 
-        end
-    end;
-    
-    get_tracksystems = function(_game)
-        for i,v in next, _game do
-            if (type(v) == 'function') then
-                local obj = getupvalue(v, 1)
-                if (type(obj) == 'table' and rawget(obj, '_table') and rawget(obj, 'count')) then
-                    if (obj:count() <= 4) then
-                        return obj
-                    end
-                end
+        inputService.InputChanged:Connect(function(input)
+            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                local mouse = inputService:GetMouseLocation()
+                local absoluteX = slider.AbsolutePosition.X
+                local percent = (mouse.X - absoluteX) / slider.AbsoluteSize.X
+                update(min + (max - min) * percent)
             end
-        end
-    end;
-    
-    get_func = function(parent, func)
-        for i,v in next, parent do
-            local consts = type(v) == 'function' and getconstants(v) or {}
-            if (type(v) == 'function' and Utilities.determine(func, consts)) then
-                return v
-            end
-        end
-    end;
-};
+        end)
 
-Database = nil
-local AllSongs;
-Applying = {}
-StoredSongs = {}
-
-local function Apply(as,db)
-    local MNM = db:name_to_key('MondayNightMonsters1')
-
-    local old_new = as.new
-    
-    as.new = function(...)
-        local as_self = old_new(...)
-        local old_skp = as_self.on_songkey_pressed;
-        as_self.on_songkey_pressed = function(self, song)
-            
-            local actual = tonumber(song);
-            
-            if UnlockAllSongs then
-                song = MNM
-            end
-            
-            local song_name = db:key_to_name(song)
-            local actual_name = db:key_to_name(actual)
-            local title = db:get_title_for_key(actual)
-            local data = StoredSongs[title]
-            
-            local all = getupvalue(db.add_key_to_data, 1);
-
-            all:add(song, data);
-            data.__key = song;
-            
-            setupvalue(db.add_key_to_data, 1, all)
-             
-            return old_skp(self, song)
-        end
-        
-        return as_self
-    end
-end
-
-colors = {
-    [1] = Color3.fromRGB(255, 0, 0);
-    [2] = Color3.fromRGB(255, 0, 0);
-    [3] = Color3.fromRGB(255, 0, 0);
-    [4] = Color3.fromRGB(255, 0, 0);
-}
-
-TrackSystem = nil
-get_local_elements_folder = nil
-vip = nil
-WebNPCManager = nil
-visit_webnpc = nil
-SongSpeedValue = 1000
-
-loadstring([[for i,v in next, getgc(true) do
-    if type(v) == 'table' then
-        if rawget(v, 'key_has_combineinfo') then
-            Database = v;
-        end
-        if rawget(v, "input_began") then 
-            local input_began = v.input_began
-            v.input_began = function(_, input) 
-                if type(input) ~= "number" and BlockInput then 
-                    return
-                end 
-                return input_began(_, input)
-            end
-        end
-        if rawget(v, "visit_webnpc") then
-            visit_webnpc = v.visit_webnpc
-        end 
-        if rawget(v, "webnpcid_should_trigger_reward") then 
-            WebNPCManager = v
-        end
-        if rawget(v, 'playerblob_has_vip_for_current_day') then
-            vip = v
-        end
-        if type(rawget(v, 'new')) == 'function' and islclosure(v.new) then
-            local new = v.new
-            local finding = {"get_default_base_color_list", "get_default_fever_color_list"};
-            local found = 0;
-            for _,bruh in next, getconstants(new) do
-                if (bruh == 'on_songkey_pressed') then
-                    table.insert(Applying, #Applying+1, v)
-                end
-                if (table.find(finding, bruh)) then
-                    found = found + 1
-                end
-            end
-            if (found >= #finding) and not TrackSystem then
-                TrackSystem = v;
-            end
-        end	
-        if rawget(v, "TimescaleToDeltaTime") then 
-            local OldTTDT = v.TimescaleToDeltaTime
-            v.TimescaleToDeltaTime = function(...)
-                local args = {...}
-                args[2] = args[2] * (SongSpeedValue / 1000)
-                return OldTTDT(unpack(args))
-            end
-        end
-        if rawget(v, 'color3_for_slot') then 
-            local old = v.color3_for_slot
-            v.color3_for_slot = function(self, ...)
-                local orig = old(self, ...)
-                if not NoteColors then 
-                    return orig 
-                end
-                return colors[self:get_track_index()] or orig
-            end
-        end
-        if rawget(v, 'get_local_elements_folder') then 
-            get_local_elements_folder = v.get_local_elements_folder 
-        end
-        if rawget(v, 'HitObjects') then 
-            StoredSongs[v.AudioFilename] = v
-        end
-    end
-end]])()
-
-for _,AllSongs in next, Applying do
-    Apply(AllSongs, Database)
-end
-
-local playerblob_has_vip_for_current_day = vip.playerblob_has_vip_for_current_day
-
-Autoplayer = true
-
-vip.playerblob_has_vip_for_current_day = function()
-            return true 
-        end 
-
-function update_autoplayer(_game, target_delay)
-    local localSlot = getupvalue(_game.set_local_game_slot, 1)
-    local trackSystem = Utilities.get_tracksystems(_game)._table[localSlot]
-    local Notes = Utilities.get_notes(trackSystem)
-    local Target = -math.abs(target_delay)
-    local current_song = get_local_elements_folder():FindFirstChildWhichIsA("Sound")
-
-    if current_song then 
-        current_song.PlaybackSpeed = SongSpeedValue / 1000
+        return slider
     end
 
-    for Index = 1, Notes:count() do
-        local Note = Notes:get(Index)
-        if Note then
-            local NoteTrack = Note:get_track_index(Index)
-            if HeldNotes[NoteTrack] and Utilities.get_func(Note, TEST_RELEASE) then
-                local released, result, delay = Utilities.get_func(Note, TEST_RELEASE)(Note, _game, 0)
-                if (released and delay >= Target) then
-                    HeldNotes[NoteTrack] = nil
-                    Utilities.get_func(trackSystem, RELEASE_TRACK)(trackSystem, _game, NoteTrack)
-                    return true
-                end
-            elseif (Autoplayer and Utilities.get_func(Note, TEST_HIT)) then
-                local hit, result, delay = Utilities.get_func(Note, TEST_HIT)(Note, _game, 0)
-                if hit and delay >= Target then
-                    Utilities.get_func(trackSystem, PRESS_TRACK)(trackSystem, _game, NoteTrack)
-                    _game:debug_any_press()
-    
-                    if (type(Note.get_time_to_end) == 'nil') then
-                        HeldNotes[NoteTrack] = true
-                    else
-                        wait(0.05)
-                        Utilities.get_func(trackSystem, RELEASE_TRACK)(trackSystem, _game, NoteTrack)
-                    end
-                end
-            end
-        end
-    end
+    return lib
 end
 
-local old_new = TrackSystem.new;
-TrackSystem.new = function(...)
-    local self = old_new(...)
-    local old_update
-    for i,v in next, self do 
-        if type(v) == "function" then 
-            local c = getconstants(v)
-            if table.find(c, "do_remove") and table.find(c, "remove_at") then 
-                old_update = v
-                rawset(self, getinfo(v).name, function(shit, slot, _game)
-                    if Autoplayer then
-                        local delay = Utilities.get_target_delay_from_noteresult(Utilities.get_noteresult()) or 25
-                        coroutine.wrap(update_autoplayer)(_game, delay)
-                    end
-                    return old_update(self, slot, _game)
-                end)
-                break
-            end
-        end 
-    end
-    return self;
-end
-
-if false then 
-    vip.playerblob_has_vip_for_current_day = function()
-        return true 
-    end 
-else 
-    vip.playerblob_has_vip_for_current_day = playerblob_has_vip_for_current_day
-end
+return Library
