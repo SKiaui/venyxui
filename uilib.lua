@@ -1,4 +1,5 @@
 local Library = {}
+local TweenService = game:GetService("TweenService")
 
 function Library:CreateWindow(name)
     local ScreenGui = Instance.new("ScreenGui")
@@ -18,6 +19,7 @@ function Library:CreateWindow(name)
     Vigil.Size = UDim2.new(0.317800254, 0, 0.361586094, 0)
     Vigil.Image = "rbxassetid://119971145457961"
     Vigil.ScaleType = Enum.ScaleType.Fit
+    Vigil.ImageTransparency = 1 -- Start transparent for fade-in effect
 
     local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
     UIAspectRatioConstraint.Parent = Vigil
@@ -46,6 +48,7 @@ function Library:CreateWindow(name)
     OptionsTap.Size = UDim2.new(0.646829247, 0, 0.94156456, 0)
     OptionsTap.Image = "rbxassetid://114891277539091"
     OptionsTap.ScaleType = Enum.ScaleType.Fit
+    OptionsTap.ImageTransparency = 1 -- Start transparent for fade-in effect
 
     local Scroller = Instance.new("ScrollingFrame")
     Scroller.Name = "Scroller"
@@ -66,6 +69,12 @@ function Library:CreateWindow(name)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0.0240295753, 0)
 
+    -- Fade-in animation for the UI
+    local fadeIn = TweenService:Create(Vigil, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
+    local fadeInOptions = TweenService:Create(OptionsTap, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
+    fadeIn:Play()
+    fadeInOptions:Play()
+
     local lib = {
         Elements = {},
         Callbacks = {}
@@ -84,6 +93,7 @@ function Library:CreateWindow(name)
         Button.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
         Button.Image = "rbxassetid://81214913856279"
         Button.ScaleType = Enum.ScaleType.Fit
+        Button.ImageTransparency = 1 -- Start transparent for fade-in effect
 
         local Txt = Instance.new("TextLabel")
         Txt.Name = "Txt"
@@ -101,6 +111,10 @@ function Library:CreateWindow(name)
         Txt.TextScaled = true
         Txt.TextSize = 14.000
         Txt.TextWrapped = true
+
+        -- Fade-in animation for the button
+        local buttonFadeIn = TweenService:Create(Button, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
+        buttonFadeIn:Play()
 
         Button.MouseButton1Click:Connect(options.Callback)
         return Button
@@ -120,6 +134,7 @@ function Library:CreateWindow(name)
         Toggle.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
         Toggle.Image = "rbxassetid://81214913856279"
         Toggle.ScaleType = Enum.ScaleType.Fit
+        Toggle.ImageTransparency = 1 -- Start transparent for fade-in effect
 
         local state = options.Default or false
 
@@ -172,10 +187,17 @@ function Library:CreateWindow(name)
         On.ScaleType = Enum.ScaleType.Fit
         On.Visible = state
 
+        -- Fade-in animation for the toggle
+        local toggleFadeIn = TweenService:Create(Toggle, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
+        toggleFadeIn:Play()
+
         Button.MouseButton1Click:Connect(function()
             state = not state
-            On.Visible = state
-            Off.Visible = not state
+            local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            local tweenOff = TweenService:Create(Off, tweenInfo, {Position = UDim2.new(state and 0.94 or 0.06, 0, 0.5, 0)})
+            local tweenOn = TweenService:Create(On, tweenInfo, {Position = UDim2.new(state and 0.06 or 0.94, 0, 0.5, 0)})
+            tweenOff:Play()
+            tweenOn:Play()
             options.Callback(state)
         end)
 
@@ -196,6 +218,7 @@ function Library:CreateWindow(name)
         Slider.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
         Slider.Image = "rbxassetid://81214913856279"
         Slider.ScaleType = Enum.ScaleType.Fit
+        Slider.ImageTransparency = 1 -- Start transparent for fade-in effect
 
         local min = options.Min or 0
         local max = options.Max or 100
@@ -245,6 +268,10 @@ function Library:CreateWindow(name)
         TxtValue.TextSize = 14
         TxtValue.TextWrapped = true
         TxtValue.TextXAlignment = Enum.TextXAlignment.Left
+
+        -- Fade-in animation for the slider
+        local sliderFadeIn = TweenService:Create(Slider, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
+        sliderFadeIn:Play()
 
         local dragging = false
         local inputService = game:GetService("UserInputService")
