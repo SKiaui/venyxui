@@ -198,7 +198,7 @@ function Library:CreateWindow(name)
         Slider.ScaleType = Enum.ScaleType.Fit
 
         local min = options.Min or 0
-        local max = options.Max = 100
+        local max = options.Max or 100
         local value = options.Default or min
 
         local Txt = Instance.new("TextLabel")
