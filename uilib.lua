@@ -102,8 +102,8 @@ function Library:CreateWindow(name)
         Txt.TextSize = 14.000
         Txt.TextWrapped = true
 
-        button.MouseButton1Click:Connect(options.Callback)
-        return button
+        Button.MouseButton1Click:Connect(options.Callback)
+        return Button
     end
 
     function lib:Toggle(options)
@@ -203,7 +203,7 @@ function Library:CreateWindow(name)
 
         local Txt = Instance.new("TextLabel")
         Txt.Name = "Txt"
-        Txt.Parent = Banner
+        Txt.Parent = Slider
         Txt.AnchorPoint = Vector2.new(0.5, 0.5)
         Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Txt.BackgroundTransparency = 1.000
@@ -272,14 +272,15 @@ function Library:CreateWindow(name)
         inputService.InputChanged:Connect(function(input)
             if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
                 local mouse = inputService:GetMouseLocation()
-                local absoluteX = slider.AbsolutePosition.X
+                local absoluteX = Slider.AbsolutePosition.X
                 local percent = (mouse.X - absoluteX) / Slider.AbsoluteSize.X
                 update(min + (max - min) * percent)
             end
         end)
 
-        return slider
+        return Slider
     end
+
     return lib
 end
 
