@@ -6,124 +6,140 @@ function Library:CreateWindow(name)
     ScreenGui.Parent = game:GetService("CoreGui")
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-    -- Main Container
     local Vigil = Instance.new("ImageLabel")
     Vigil.Name = "Vigil"
     Vigil.Parent = ScreenGui
     Vigil.AnchorPoint = Vector2.new(0.5, 0.5)
-    Vigil.BackgroundTransparency = 1
+    Vigil.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Vigil.BackgroundTransparency = 1.000
+    Vigil.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Vigil.BorderSizePixel = 0
     Vigil.Position = UDim2.new(0.5, 0, 0.5, 0)
-    Vigil.Size = UDim2.new(0.534, 0, 0.608, 0)
+    Vigil.Size = UDim2.new(0.317800254, 0, 0.361586094, 0)
     Vigil.Image = "rbxassetid://119971145457961"
     Vigil.ScaleType = Enum.ScaleType.Fit
 
-    -- Aspect Ratio Constraint
     local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
     UIAspectRatioConstraint.Parent = Vigil
     UIAspectRatioConstraint.AspectRatio = 1.562
 
-    -- Content Frame
     local Content = Instance.new("Frame")
     Content.Name = "Content"
     Content.Parent = Vigil
     Content.AnchorPoint = Vector2.new(0.5, 0.5)
-    Content.BackgroundTransparency = 1
-    Content.Position = UDim2.new(0.5, 0, 0.562, 0)
-    Content.Size = UDim2.new(1, 0, 0.876, 0)
+    Content.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Content.BackgroundTransparency = 1.000
+    Content.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Content.BorderSizePixel = 0
+    Content.Position = UDim2.new(0.5, 0, 0.562061369, 0)
+    Content.Size = UDim2.new(1, 0, 0.87587738, 0)
 
-    -- Options Tab
     local OptionsTap = Instance.new("ImageLabel")
     OptionsTap.Name = "OptionsTap"
     OptionsTap.Parent = Content
     OptionsTap.AnchorPoint = Vector2.new(0, 0.5)
-    OptionsTap.BackgroundTransparency = 1
-    OptionsTap.Position = UDim2.new(0.353, 0, 0.47, 0)
-    OptionsTap.Size = UDim2.new(0.647, 0, 0.942, 0)
+    OptionsTap.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    OptionsTap.BackgroundTransparency = 1.000
+    OptionsTap.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    OptionsTap.BorderSizePixel = 0
+    OptionsTap.Position = UDim2.new(0.353150517, 0, 0.470397532, 0)
+    OptionsTap.Size = UDim2.new(0.646829247, 0, 0.94156456, 0)
     OptionsTap.Image = "rbxassetid://114891277539091"
     OptionsTap.ScaleType = Enum.ScaleType.Fit
 
-    -- Scrolling Frame
     local Scroller = Instance.new("ScrollingFrame")
     Scroller.Name = "Scroller"
     Scroller.Parent = OptionsTap
     Scroller.AnchorPoint = Vector2.new(0.5, 0.5)
-    Scroller.BackgroundTransparency = 1
+    Scroller.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Scroller.BackgroundTransparency = 1.000
+    Scroller.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Scroller.BorderSizePixel = 0
     Scroller.Position = UDim2.new(0.5, 0, 0.5, 0)
     Scroller.Size = UDim2.new(1, 0, 1, 0)
-    Scroller.CanvasSize = UDim2.new(0, 0, 2, 0)
+    Scroller.CanvasSize = UDim2.new(0, 0, 0, 0)
     Scroller.ScrollBarThickness = 8
 
     local UIListLayout = Instance.new("UIListLayout")
     UIListLayout.Parent = Scroller
     UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.Padding = UDim.new(0.024, 0)
+    UIListLayout.Padding = UDim.new(0.0240295753, 0)
 
     local lib = {
         Elements = {},
         Callbacks = {}
     }
 
-    -- Button Component
     function lib:Button(options)
-        local button = Instance.new("ImageButton")
-        button.Name = options.Name
-        button.Parent = Scroller
-        button.AnchorPoint = Vector2.new(0.5, 0.5)
-        button.BackgroundTransparency = 1
-        button.Size = UDim2.new(0.937, 0, 0.111, 0)
-        button.Image = "rbxassetid://81214913856279"
-        button.ScaleType = Enum.ScaleType.Fit
+        local Button = Instance.new("ImageButton")
+        Button.Name = "Button"
+        Button.Parent = Scroller
+        Button.AnchorPoint = Vector2.new(0.5, 0.5)
+        Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Button.BackgroundTransparency = 1.000
+        Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Button.BorderSizePixel = 0
+        Button.Position = UDim2.new(0.0450000018, 0, 0.112000003, 0)
+        Button.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
+        Button.Image = "rbxassetid://81214913856279"
+        Button.ScaleType = Enum.ScaleType.Fit
 
         local Txt = Instance.new("TextLabel")
-        Txt.Name = "Text"
-        Txt.Parent = button
+        Txt.Name = "Txt"
+        Txt.Parent = Banner
         Txt.AnchorPoint = Vector2.new(0.5, 0.5)
-        Txt.BackgroundTransparency = 1
+        Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.BackgroundTransparency = 1.000
+        Txt.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Txt.BorderSizePixel = 0
         Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
-        Txt.Size = UDim2.new(0.936, 0, 0.467, 0)
-        Txt.Font = Enum.Font.GothamMedium
+        Txt.Size = UDim2.new(1, 0, 0.632911384, 0)
+        Txt.Font = Enum.Font.Gotham
         Txt.Text = options.Name
-        Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.TextColor3 = Color3.fromRGB(117, 117, 117)
         Txt.TextScaled = true
-        Txt.TextSize = 14
+        Txt.TextSize = 14.000
         Txt.TextWrapped = true
-        Txt.TextXAlignment = Enum.TextXAlignment.Left
 
         button.MouseButton1Click:Connect(options.Callback)
         return button
     end
 
-    -- Toggle Component
     function lib:Toggle(options)
-        local toggle = Instance.new("ImageLabel")
-        toggle.Name = options.Name
-        toggle.Parent = Scroller
-        toggle.AnchorPoint = Vector2.new(0.5, 0.5)
-        toggle.BackgroundTransparency = 1
-        toggle.Size = UDim2.new(0.937, 0, 0.111, 0)
-        toggle.Image = "rbxassetid://81214913856279"
-        toggle.ScaleType = Enum.ScaleType.Fit
+        local Toggle = Instance.new("ImageLabel")
+        Toggle.Name = "Toggle"
+        Toggle.Parent = Scroller
+        Toggle.AnchorPoint = Vector2.new(0.5, 0.5)
+        Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Toggle.BackgroundTransparency = 1.000
+        Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Toggle.BorderSizePixel = 0
+        Toggle.Position = UDim2.new(0.0450000018, 0, 0.112000003, 0)
+        Toggle.Selectable = true
+        Toggle.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
+        Toggle.Image = "rbxassetid://81214913856279"
+        Toggle.ScaleType = Enum.ScaleType.Fit
 
         local state = options.Default or false
-        
-        -- Toggle Text
-        local Txt = Instance.new("TextLabel")
-        Txt.Name = "Text"
-        Txt.Parent = toggle
-        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
-        Txt.BackgroundTransparency = 1
-        Txt.Position = UDim2.new(0.369, 0, 0.5, 0)
-        Txt.Size = UDim2.new(0.673, 0, 0.467, 0)
-        Txt.Font = Enum.Font.GothamMedium
-        Txt.Text = options.Name
-        Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Txt.TextScaled = true
-        Txt.TextSize = 14
-        Txt.TextWrapped = true
-        Txt.TextXAlignment = Enum.TextXAlignment.Left
 
-        -- Toggle Switch
+        local Txt = Instance.new("TextLabel")
+        Txt.Name = "Txt"
+        Txt.Parent = Banner
+        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
+        Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.BackgroundTransparency = 1.000
+        Txt.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Txt.BorderSizePixel = 0
+        Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
+        Txt.Size = UDim2.new(1, 0, 0.632911384, 0)
+        Txt.Font = Enum.Font.Gotham
+        Txt.Text = options.Name
+        Txt.TextColor3 = Color3.fromRGB(117, 117, 117)
+        Txt.TextScaled = true
+        Txt.TextSize = 14.000
+        Txt.TextWrapped = true
+
         local Button = Instance.new("ImageButton")
         Button.Name = "Switch"
         Button.Parent = toggle
@@ -166,45 +182,52 @@ function Library:CreateWindow(name)
         return toggle
     end
 
-    -- Slider Component
     function lib:Slider(options)
-        local slider = Instance.new("ImageLabel")
-        slider.Name = options.Name
-        slider.Parent = Scroller
-        slider.AnchorPoint = Vector2.new(0.5, 0.5)
-        slider.BackgroundTransparency = 1
-        slider.Size = UDim2.new(0.937, 0, 0.111, 0)
-        slider.Image = "rbxassetid://81214913856279"
-        slider.ScaleType = Enum.ScaleType.Fit
+        local Slider = Instance.new("ImageLabel")
+        Slider.Name = options.Name
+        Slider.Parent = Scroller
+        Slider.AnchorPoint = Vector2.new(0.5, 0.5)
+        Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Slider.BackgroundTransparency = 1.000
+        Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Slider.BorderSizePixel = 0
+        Slider.Position = UDim2.new(0.0450000018, 0, 0.112000003, 0)
+        Slider.Selectable = true
+        Slider.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
+        Slider.Image = "rbxassetid://81214913856279"
+        Slider.ScaleType = Enum.ScaleType.Fit
 
         local min = options.Min or 0
-        local max = options.Max or 100
+        local max = options.Max = 100
         local value = options.Default or min
-        
-        -- Slider Text
-        local Txt = Instance.new("TextLabel")
-        Txt.Name = "Text"
-        Txt.Parent = slider
-        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
-        Txt.BackgroundTransparency = 1
-        Txt.Position = UDim2.new(0.28, 0, 0.5, 0)
-        Txt.Size = UDim2.new(0.496, 0, 0.466, 0)
-        Txt.Font = Enum.Font.GothamMedium
-        Txt.Text = options.Name
-        Txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Txt.TextScaled = true
-        Txt.TextSize = 14
-        Txt.TextWrapped = true
-        Txt.TextXAlignment = Enum.TextXAlignment.Left
 
-        -- Progress Bar
+        local Txt = Instance.new("TextLabel")
+        Txt.Name = "Txt"
+        Txt.Parent = Banner
+        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
+        Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Txt.BackgroundTransparency = 1.000
+        Txt.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Txt.BorderSizePixel = 0
+        Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
+        Txt.Size = UDim2.new(1, 0, 0.632911384, 0)
+        Txt.Font = Enum.Font.Gotham
+        Txt.Text = options.Name
+        Txt.TextColor3 = Color3.fromRGB(117, 117, 117)
+        Txt.TextScaled = true
+        Txt.TextSize = 14.000
+        Txt.TextWrapped = true
+
         local LoadingBar = Instance.new("ImageLabel")
         LoadingBar.Name = "LoadingBar"
-        LoadingBar.Parent = slider
+        LoadingBar.Parent = Slider
         LoadingBar.AnchorPoint = Vector2.new(1, 0.5)
-        LoadingBar.BackgroundTransparency = 1
-        LoadingBar.Position = UDim2.new(0.986, 0, 0.5, 0)
-        LoadingBar.Size = UDim2.new(0.457, 0, 0.716, 0)
+        LoadingBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        LoadingBar.BackgroundTransparency = 1.000
+        LoadingBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        LoadingBar.BorderSizePixel = 0
+        LoadingBar.Position = UDim2.new(0.98550725, 0, 0.5, 0)
+        LoadingBar.Size = UDim2.new(0.457326889, 0, 0.716118515, 0)
         LoadingBar.Image = "rbxassetid://117462785670806"
         LoadingBar.ScaleType = Enum.ScaleType.Fit
 
@@ -223,7 +246,6 @@ function Library:CreateWindow(name)
         TxtValue.TextWrapped = true
         TxtValue.TextXAlignment = Enum.TextXAlignment.Left
 
-        -- Slider Logic
         local dragging = false
         local inputService = game:GetService("UserInputService")
 
@@ -233,11 +255,11 @@ function Library:CreateWindow(name)
             options.Callback(value)
         end
 
-        slider.MouseButton1Down:Connect(function()
+        Slider.MouseButton1Down:Connect(function()
             dragging = true
             local mouse = inputService:GetMouseLocation()
-            local absoluteX = slider.AbsolutePosition.X
-            local percent = (mouse.X - absoluteX) / slider.AbsoluteSize.X
+            local absoluteX = Slider.AbsolutePosition.X
+            local percent = (mouse.X - absoluteX) / Slider.AbsoluteSize.X
             update(min + (max - min) * percent)
         end)
 
@@ -258,7 +280,6 @@ function Library:CreateWindow(name)
 
         return slider
     end
-
     return lib
 end
 
