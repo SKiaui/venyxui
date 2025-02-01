@@ -11,301 +11,109 @@ function Library:CreateWindow(name)
     Vigil.Name = "Vigil"
     Vigil.Parent = ScreenGui
     Vigil.AnchorPoint = Vector2.new(0.5, 0.5)
-    Vigil.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Vigil.BackgroundTransparency = 1.000
-    Vigil.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Vigil.BorderSizePixel = 0
+    Vigil.BackgroundTransparency = 1
     Vigil.Position = UDim2.new(0.5, 0, 0.5, 0)
-    Vigil.Size = UDim2.new(0.317800254, 0, 0.361586094, 0)
+    Vigil.Size = UDim2.new(0.3, 0, 0.4, 0)
     Vigil.Image = "rbxassetid://119971145457961"
     Vigil.ScaleType = Enum.ScaleType.Fit
     Vigil.ImageTransparency = 1 -- Start transparent for fade-in effect
 
-    local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
-    UIAspectRatioConstraint.Parent = Vigil
-    UIAspectRatioConstraint.AspectRatio = 1.562
+    local fadeIn = TweenService:Create(Vigil, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
+    fadeIn:Play()
 
     local Content = Instance.new("Frame")
     Content.Name = "Content"
     Content.Parent = Vigil
     Content.AnchorPoint = Vector2.new(0.5, 0.5)
-    Content.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Content.BackgroundTransparency = 1.000
-    Content.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Content.BorderSizePixel = 0
-    Content.Position = UDim2.new(0.5, 0, 0.562061369, 0)
-    Content.Size = UDim2.new(1, 0, 0.87587738, 0)
-
-    local OptionsTap = Instance.new("ImageLabel")
-    OptionsTap.Name = "OptionsTap"
-    OptionsTap.Parent = Content
-    OptionsTap.AnchorPoint = Vector2.new(0, 0.5)
-    OptionsTap.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    OptionsTap.BackgroundTransparency = 1.000
-    OptionsTap.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    OptionsTap.BorderSizePixel = 0
-    OptionsTap.Position = UDim2.new(0.353150517, 0, 0.470397532, 0)
-    OptionsTap.Size = UDim2.new(0.646829247, 0, 0.94156456, 0)
-    OptionsTap.Image = "rbxassetid://114891277539091"
-    OptionsTap.ScaleType = Enum.ScaleType.Fit
-    OptionsTap.ImageTransparency = 1 -- Start transparent for fade-in effect
+    Content.BackgroundTransparency = 1
+    Content.Position = UDim2.new(0.5, 0, 0.6, 0)
+    Content.Size = UDim2.new(1, 0, 0.8, 0)
 
     local Scroller = Instance.new("ScrollingFrame")
-    Scroller.Name = "Scroller"
-    Scroller.Parent = OptionsTap
-    Scroller.AnchorPoint = Vector2.new(0.5, 0.5)
-    Scroller.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Scroller.BackgroundTransparency = 1.000
-    Scroller.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Scroller.BorderSizePixel = 0
-    Scroller.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Scroller.Parent = Content
     Scroller.Size = UDim2.new(1, 0, 1, 0)
     Scroller.CanvasSize = UDim2.new(0, 0, 0, 0)
     Scroller.ScrollBarThickness = 8
+    Scroller.BackgroundTransparency = 1
 
     local UIListLayout = Instance.new("UIListLayout")
     UIListLayout.Parent = Scroller
-    UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.Padding = UDim.new(0.0240295753, 0)
+    UIListLayout.Padding = UDim.new(0.02, 0)
 
-    -- Fade-in animation for the UI
-    local fadeIn = TweenService:Create(Vigil, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
-    local fadeInOptions = TweenService:Create(OptionsTap, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
-    fadeIn:Play()
-    fadeInOptions:Play()
-
-    local lib = {
-        Elements = {},
-        Callbacks = {}
-    }
+    local lib = {}
 
     function lib:Button(options)
-        local Button = Instance.new("ImageButton")
-        Button.Name = "Button"
+        local Button = Instance.new("TextButton")
         Button.Parent = Scroller
-        Button.AnchorPoint = Vector2.new(0.5, 0.5)
-        Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Button.BackgroundTransparency = 1.000
-        Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Button.BorderSizePixel = 0
-        Button.Position = UDim2.new(0.0450000018, 0, 0.112000003, 0)
-        Button.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
-        Button.Image = "rbxassetid://81214913856279"
-        Button.ScaleType = Enum.ScaleType.Fit
-        Button.ImageTransparency = 1 -- Start transparent for fade-in effect
-
-        local Txt = Instance.new("TextLabel")
-        Txt.Name = "Txt"
-        Txt.Parent = Button
-        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
-        Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Txt.BackgroundTransparency = 1.000
-        Txt.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Txt.BorderSizePixel = 0
-        Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
-        Txt.Size = UDim2.new(1, 0, 0.632911384, 0)
-        Txt.Font = Enum.Font.Gotham
-        Txt.Text = options.Name
-        Txt.TextColor3 = Color3.fromRGB(117, 117, 117)
-        Txt.TextScaled = true
-        Txt.TextSize = 14.000
-        Txt.TextWrapped = true
-
-        -- Fade-in animation for the button
-        local buttonFadeIn = TweenService:Create(Button, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
-        buttonFadeIn:Play()
+        Button.Size = UDim2.new(1, 0, 0.1, 0)
+        Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        Button.Text = options.Name
+        Button.TextColor3 = Color3.new(1, 1, 1)
+        Button.TextScaled = true
 
         Button.MouseButton1Click:Connect(options.Callback)
         return Button
     end
 
-    function lib:Toggle(options)
-        local Toggle = Instance.new("ImageLabel")
-        Toggle.Name = "Toggle"
-        Toggle.Parent = Scroller
-        Toggle.AnchorPoint = Vector2.new(0.5, 0.5)
-        Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Toggle.BackgroundTransparency = 1.000
-        Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Toggle.BorderSizePixel = 0
-        Toggle.Position = UDim2.new(0.0450000018, 0, 0.112000003, 0)
-        Toggle.Selectable = true
-        Toggle.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
-        Toggle.Image = "rbxassetid://81214913856279"
-        Toggle.ScaleType = Enum.ScaleType.Fit
-        Toggle.ImageTransparency = 1 -- Start transparent for fade-in effect
-
-        local state = options.Default or false
-
-        local Txt = Instance.new("TextLabel")
-        Txt.Name = "Txt"
-        Txt.Parent = Toggle
-        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
-        Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Txt.BackgroundTransparency = 1.000
-        Txt.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Txt.BorderSizePixel = 0
-        Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
-        Txt.Size = UDim2.new(1, 0, 0.632911384, 0)
-        Txt.Font = Enum.Font.Gotham
-        Txt.Text = options.Name
-        Txt.TextColor3 = Color3.fromRGB(117, 117, 117)
-        Txt.TextScaled = true
-        Txt.TextSize = 14.000
-        Txt.TextWrapped = true
-
-        local Button = Instance.new("ImageButton")
-        Button.Name = "Switch"
-        Button.Parent = Toggle
-        Button.AnchorPoint = Vector2.new(1, 0.5)
-        Button.BackgroundTransparency = 1
-        Button.Position = UDim2.new(0.971, 0, 0.5, 0)
-        Button.Size = UDim2.new(0.108, 0, 0.533, 0)
-        Button.Image = "rbxassetid://123317618042392"
-        Button.ScaleType = Enum.ScaleType.Fit
-
-        local Off = Instance.new("ImageLabel")
-        Off.Name = "Off"
-        Off.Parent = Button
-        Off.AnchorPoint = Vector2.new(0, 0.5)
-        Off.BackgroundTransparency = 1
-        Off.Position = UDim2.new(0.06, 0, 0.5, 0)
-        Off.Size = UDim2.new(0.388, 0, 0.813, 0)
-        Off.Image = "rbxassetid://112376976170886"
-        Off.ScaleType = Enum.ScaleType.Fit
-        Off.Visible = not state
-
-        local On = Instance.new("ImageLabel")
-        On.Name = "On"
-        On.Parent = Button
-        On.AnchorPoint = Vector2.new(1, 0.5)
-        On.BackgroundTransparency = 1
-        On.Position = UDim2.new(0.94, 0, 0.5, 0)
-        On.Size = UDim2.new(0.388, 0, 0.813, 0)
-        On.Image = "rbxassetid://112376976170886"
-        On.ScaleType = Enum.ScaleType.Fit
-        On.Visible = state
-
-        -- Fade-in animation for the toggle
-        local toggleFadeIn = TweenService:Create(Toggle, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
-        toggleFadeIn:Play()
-
-        Button.MouseButton1Click:Connect(function()
-            state = not state
-            local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-            local tweenOff = TweenService:Create(Off, tweenInfo, {Position = UDim2.new(state and 0.94 or 0.06, 0, 0.5, 0)})
-            local tweenOn = TweenService:Create(On, tweenInfo, {Position = UDim2.new(state and 0.06 or 0.94, 0, 0.5, 0)})
-            tweenOff:Play()
-            tweenOn:Play()
-            options.Callback(state)
-        end)
-
-        return Toggle
-    end
-
     function lib:Slider(options)
-        local Slider = Instance.new("ImageLabel")
-        Slider.Name = options.Name
-        Slider.Parent = Scroller
-        Slider.AnchorPoint = Vector2.new(0.5, 0.5)
-        Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Slider.BackgroundTransparency = 1.000
-        Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Slider.BorderSizePixel = 0
-        Slider.Position = UDim2.new(0.0450000018, 0, 0.112000003, 0)
-        Slider.Selectable = true
-        Slider.Size = UDim2.new(0.936651587, 0, 0.110905729, 0)
-        Slider.Image = "rbxassetid://81214913856279"
-        Slider.ScaleType = Enum.ScaleType.Fit
-        Slider.ImageTransparency = 1 -- Start transparent for fade-in effect
+        local SliderFrame = Instance.new("Frame")
+        SliderFrame.Parent = Scroller
+        SliderFrame.Size = UDim2.new(1, 0, 0.1, 0)
+        SliderFrame.BackgroundTransparency = 1
 
-        local min = options.Min or 0
-        local max = options.Max or 100
-        local value = options.Default or min
+        local SliderBar = Instance.new("Frame")
+        SliderBar.Parent = SliderFrame
+        SliderBar.Size = UDim2.new(1, 0, 0.5, 0)
+        SliderBar.Position = UDim2.new(0, 0, 0.5, 0)
+        SliderBar.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 
-        local Txt = Instance.new("TextLabel")
-        Txt.Name = "Txt"
-        Txt.Parent = Slider
-        Txt.AnchorPoint = Vector2.new(0.5, 0.5)
-        Txt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Txt.BackgroundTransparency = 1.000
-        Txt.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Txt.BorderSizePixel = 0
-        Txt.Position = UDim2.new(0.5, 0, 0.5, 0)
-        Txt.Size = UDim2.new(1, 0, 0.632911384, 0)
-        Txt.Font = Enum.Font.Gotham
-        Txt.Text = options.Name
-        Txt.TextColor3 = Color3.fromRGB(117, 117, 117)
-        Txt.TextScaled = true
-        Txt.TextSize = 14.000
-        Txt.TextWrapped = true
-
-        local LoadingBar = Instance.new("ImageLabel")
-        LoadingBar.Name = "LoadingBar"
-        LoadingBar.Parent = Slider
-        LoadingBar.AnchorPoint = Vector2.new(1, 0.5)
-        LoadingBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        LoadingBar.BackgroundTransparency = 1.000
-        LoadingBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        LoadingBar.BorderSizePixel = 0
-        LoadingBar.Position = UDim2.new(0.98550725, 0, 0.5, 0)
-        LoadingBar.Size = UDim2.new(0.457326889, 0, 0.716118515, 0)
-        LoadingBar.Image = "rbxassetid://117462785670806"
-        LoadingBar.ScaleType = Enum.ScaleType.Fit
+        local Knob = Instance.new("ImageButton")
+        Knob.Parent = SliderBar
+        Knob.Size = UDim2.new(0, 20, 1, 0)
+        Knob.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+        Knob.Position = UDim2.new(0, 0, 0, 0)
+        Knob.AutoButtonColor = false
 
         local TxtValue = Instance.new("TextLabel")
-        TxtValue.Name = "Value"
-        TxtValue.Parent = LoadingBar
-        TxtValue.AnchorPoint = Vector2.new(0.5, 0.5)
+        TxtValue.Parent = SliderFrame
+        TxtValue.Position = UDim2.new(0.5, 0, 0, -20)
+        TxtValue.Size = UDim2.new(0.5, 0, 0.5, 0)
+        TxtValue.Text = tostring(options.Default or 0)
+        TxtValue.TextColor3 = Color3.new(1, 1, 1)
         TxtValue.BackgroundTransparency = 1
-        TxtValue.Position = UDim2.new(0.5, 0, 0.5, 0)
-        TxtValue.Size = UDim2.new(0.898, 0, 0.488, 0)
-        TxtValue.Font = Enum.Font.Gotham
-        TxtValue.Text = tostring(value)
-        TxtValue.TextColor3 = Color3.fromRGB(170, 170, 170)
         TxtValue.TextScaled = true
-        TxtValue.TextSize = 14
-        TxtValue.TextWrapped = true
-        TxtValue.TextXAlignment = Enum.TextXAlignment.Left
 
-        -- Fade-in animation for the slider
-        local sliderFadeIn = TweenService:Create(Slider, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0})
-        sliderFadeIn:Play()
-
+        local min, max = options.Min or 0, options.Max or 100
         local dragging = false
-        local inputService = game:GetService("UserInputService")
 
-        local function update(value)
-            value = math.clamp(value, min, max)
-            TxtValue.Text = tostring(math.floor(value))
+        local function update(input)
+            local delta = input.Position.X - SliderBar.AbsolutePosition.X
+            local percent = math.clamp(delta / SliderBar.AbsoluteSize.X, 0, 1)
+            local value = math.floor(min + (max - min) * percent)
+            TxtValue.Text = tostring(value)
+            Knob.Position = UDim2.new(percent, -10, 0, 0)
             options.Callback(value)
         end
 
-        Slider.MouseButton1Down:Connect(function()
-            dragging = true
-            local mouse = inputService:GetMouseLocation()
-            local absoluteX = Slider.AbsolutePosition.X
-            local percent = (mouse.X - absoluteX) / Slider.AbsoluteSize.X
-            update(min + (max - min) * percent)
+        Knob.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = true
+            end
         end)
 
-        inputService.InputEnded:Connect(function(input)
+        game:GetService("UserInputService").InputChanged:Connect(function(input)
+            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                update(input)
+            end
+        end)
+
+        game:GetService("UserInputService").InputEnded:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 then
                 dragging = false
             end
         end)
 
-        inputService.InputChanged:Connect(function(input)
-            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-                local mouse = inputService:GetMouseLocation()
-                local absoluteX = Slider.AbsolutePosition.X
-                local percent = (mouse.X - absoluteX) / Slider.AbsoluteSize.X
-                update(min + (max - min) * percent)
-            end
-        end)
-
-        return Slider
+        return SliderFrame
     end
 
     return lib
