@@ -78,7 +78,7 @@ function SafeLoad(instance : Instance, encrypt_names : boolean)
 			__.Name = EncryptedString()
 		end
 	end
-	
+
 	local ElevationAllowed = pcall(function() local a = cloneref(game:GetService("CoreGui")):GetFullName() end)
 	instance.Parent = ElevationAllowed and Services.CoreGui
 end
@@ -149,7 +149,7 @@ function Vigil.new(Name, ...)
 
 	InputService.InputBegan:Connect(function(Input)
 		local InputType = Input.UserInputType
-		
+
 		if Input.KeyCode == Meta.ToggleKey then
 			Window.Hidden = not Window.Hidden
 			WindowFrame.Visible = Window.Hidden
@@ -242,16 +242,16 @@ function Vigil.new(Name, ...)
 				{ Size = UDim2.new(1,0,1,0) }
 			):Play()
 		end)
-		
+
 		function Page:addSection(SectionName)
 			-- $$$$ Metadata
 			local Section, Meta = {}, {}
-			
-			local SectionFrame = AddInstance("Frame", { Parent = PageFrame, AutomaticSize = Enum.AutomaticSize.Y; Name = [[Section]], BorderSizePixel = 0, Size = UDim2.new(1.05442369, 0, 0.0790864974, 100), BorderColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
+
+			local SectionFrame = AddInstance("Frame", { Parent = PageFrame, AutomaticSize = Enum.AutomaticSize.Y; Name = [[Section]], BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 			local SectionLabel = AddInstance("TextLabel", { Parent = SectionFrame, Name = [[SectionLabel]], TextWrapped = true, BorderSizePixel = 0, TextYAlignment = Enum.TextYAlignment.Top, TextScaled = true, BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0.5, 0.5), TextSize = 14, Size = UDim2.new(1, 0, 0, 14), LayoutOrder = -1, TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = SectionName, FontFace = Font.new('rbxasset://fonts/families/GothamSSm.json', Enum.FontWeight.SemiBold, Enum.FontStyle.Normal), Position = UDim2.new(0.500000298, 0, 0.0535870567, 0), TextColor3 = Color3.fromRGB(172, 172, 172), BackgroundTransparency = 1,})
 			local UIListLayout = AddInstance("UIListLayout", { Parent = SectionFrame, Padding = UDim.new(0, 10), SortOrder = Enum.SortOrder.LayoutOrder, HorizontalAlignment = Enum.HorizontalAlignment.Center,})
-			local UIPadding = AddInstance("UIPadding", { Parent = SectionFrame, PaddingRight = UDim.new(0, 15), PaddingLeft = UDim.new(0, 15),})
-			
+			local UIPadding = AddInstance("UIPadding", { Parent = SectionFrame, PaddingRight = UDim.new(0, 5), PaddingLeft = UDim.new(0, 5),})
+
 			-- $$$$ Functions + Connections
 			function Section:addKeybind(...)
 				-- $$$$$ Metadata
@@ -691,7 +691,7 @@ function Vigil.new(Name, ...)
 
 				return Toggle
 			end
-			
+
 			return Section
 		end
 
