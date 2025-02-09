@@ -1,4 +1,4 @@
--- @ doom.dtw | 3:22 PM 2/6/25
+
 -- @ This UI uses SafeLoad V1. Will bypass most CoreGui checks. (ex: Peroxide, Da Hood)
 
 -- $ VARIABLES
@@ -112,11 +112,11 @@ function Vigil.new(Name, ...)
 	Meta = TableOverwrite(Meta, ... or {})
 
 	-- $$ Instances
-	local WindowFrame = AddInstance("ImageLabel", { Parent = nil, Name = [[WindowFrame]], AnchorPoint = Meta.Anchor, Active = true, Selectable = true, Image = [[rbxassetid://92051109372532]], BorderSizePixel = 0, Size = Meta.Size, ScaleType = Enum.ScaleType.Fit, BorderColor3 = Color3.fromRGB(0, 0, 0), Position = Meta.Pos, BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
+	local WindowFrame = AddInstance("ImageLabel", { Parent = nil, Name = [[WindowFrame]], AnchorPoint = Meta.Anchor, Active = true, Selectable = true, Image = [[rbxassetid://92051109372532]], BorderSizePixel = 0, Size = Meta.Size, ScaleType = Enum.ScaleType.Stretch, BorderColor3 = Color3.fromRGB(0, 0, 0), Position = Meta.Pos, BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 	local TopBarFrame = AddInstance("Frame", { Parent = WindowFrame, Name = [[Banner]], AnchorPoint = Vector2.new(0.5, 0), BorderSizePixel = 0, Size = UDim2.new(1, 0, 0.118902437, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0.5, 0, 0, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 	local ContentFrame = AddInstance("Frame", { Parent = WindowFrame, Name = [[Content]], AnchorPoint = Vector2.new(0.5, 0.5), BorderSizePixel = 0, Size = UDim2.new(1, 0, 0.875, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0.5, 0, 0.562061369, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
-	local SidebarFrame = AddInstance("ImageLabel", { Parent = ContentFrame, Name = [[SidebarFrame]], LayoutOrder = 1, AnchorPoint = Vector2.new(0.5, 0.5), Image = [[rbxassetid://84563213653891]], BorderSizePixel = 0, Size = UDim2.new(0.302439034, 0, 0.959999979, 0), ScaleType = Enum.ScaleType.Fit, BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0.0175609756, 0, 0.5, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
-	local TabsFrame = AddInstance("ImageLabel", { Parent = ContentFrame, Name = [[ContentFrame]], LayoutOrder = 2, AnchorPoint = Vector2.new(0, 0.5), Image = [[rbxassetid://91973614665311]], BorderSizePixel = 0, Size = UDim2.new(0.646829247, 0, 0.959999979, 0), ScaleType = Enum.ScaleType.Fit, BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0.0175609756, 0, 0.5, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
+	local SidebarFrame = AddInstance("ImageLabel", { Parent = ContentFrame, Name = [[SidebarFrame]], LayoutOrder = 1, AnchorPoint = Vector2.new(0.5, 0.5), Image = [[rbxassetid://84563213653891]], BorderSizePixel = 0, Size = UDim2.new(0.302439034, 0, 0.959999979, 0), ScaleType = Enum.ScaleType.Stretch, BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0.0175609756, 0, 0.5, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
+	local TabsFrame = AddInstance("ImageLabel", { Parent = ContentFrame, Name = [[ContentFrame]], LayoutOrder = 2, AnchorPoint = Vector2.new(0, 0.5), Image = [[rbxassetid://91973614665311]], BorderSizePixel = 0, Size = UDim2.new(0.646829247, 0, 0.959999979, 0), ScaleType = Enum.ScaleType.Stretch, BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0.0175609756, 0, 0.5, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 	local TitleTextLabel = AddInstance("TextLabel", { Parent = TopBarFrame, Name = [[TitleTextLabel]], TextWrapped = false, BorderSizePixel = 0, TextScaled = true, BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0.5, 0.5), TextSize = 14, Size = UDim2.new(1, 0, 0.632911384, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), Text = Name, Font = Enum.Font.Gotham, Position = UDim2.new(0.5, 0, 0.5, 0), TextColor3 = Color3.fromRGB(117, 117, 117), BackgroundTransparency = 1,})
 	local SidebarScrollingFrame = AddInstance("ScrollingFrame", { Parent = SidebarFrame, ClipsDescendants = false; ScrollingDirection = Enum.ScrollingDirection.Y, BorderSizePixel = 0, CanvasSize = UDim2.new(0, 0, 0, 0), BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.new(0.836525023, 0, 1, 0), ScrollBarImageColor3 = Color3.fromRGB(101, 101, 101), AutomaticCanvasSize = Enum.AutomaticSize.Y, BorderColor3 = Color3.fromRGB(0, 0, 0), ScrollBarThickness = 6, Position = UDim2.new(0.543262482, 0, 0.5, 0), BackgroundTransparency = 1, Selectable = false,})
 	local SelectionLine = AddInstance("Frame", { Parent = nil, Name = [[Line]], AnchorPoint = Vector2.new(0, 0.5), BorderSizePixel = 0, Size = UDim2.new(0, 2, 1, 9), BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(0, -5, 0.5, 0), BackgroundColor3 = Color3.fromRGB(154, 154, 154),})
@@ -125,7 +125,7 @@ function Vigil.new(Name, ...)
 	AddInstance("Frame", { Parent = SidebarScrollingFrame, Name = [[BottomPadding]], AnchorPoint = Vector2.new(0.5, 0.5), BorderSizePixel = 0, Size = UDim2.new(1.04502976, 0, 0, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), LayoutOrder = 99, Position = UDim2.new(0.0450000018, 0, 0.112000003, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 	AddInstance("Frame", { Parent = SidebarScrollingFrame, Name = [[TopPadding]], AnchorPoint = Vector2.new(0.5, 0.5), BorderSizePixel = 0, Size = UDim2.new(1.04502976, 0, -0.00529100513, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), LayoutOrder = -99, Position = UDim2.new(0.0450000018, 0, 0.112000003, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 	AddInstance("UIListLayout", { Parent = SidebarScrollingFrame, Padding = UDim.new(0.0599999987, 0), SortOrder = Enum.SortOrder.LayoutOrder,})
-	AddInstance("UIAspectRatioConstraint", { Parent = WindowFrame, AspectRatio = 1.1388888359069824,})
+	--AddInstance("UIAspectRatioConstraint", { Parent = WindowFrame, AspectRatio = 1.1388888359069824,})
 	AddInstance("UIListLayout", { Parent = ContentFrame, VerticalAlignment = Enum.VerticalAlignment.Center, FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0.0160000008, 0), SortOrder = Enum.SortOrder.LayoutOrder, HorizontalAlignment = Enum.HorizontalAlignment.Center,})
 
 	-- $$ If UI does not exist, create one
@@ -149,10 +149,23 @@ function Vigil.new(Name, ...)
 
 	InputService.InputBegan:Connect(function(Input)
 		local InputType = Input.UserInputType
-
+		
 		if Input.KeyCode == Meta.ToggleKey then
 			Window.Hidden = not Window.Hidden
-			WindowFrame.Visible = Window.Hidden
+			
+			TweenService:Create(
+				WindowFrame,
+				tween_info.new(.25, easing_style.Quad, easing_direction.InOut),
+				{ Size = Window.Hidden and UDim2.new(Meta.Size.X.Scale, Meta.Size.X.Offset, 0, 0) or Meta.Size }
+			):Play()
+
+			TweenService:Create(
+				TitleTextLabel,
+				tween_info.new(.25, easing_style.Quad, easing_direction.InOut),
+				{ TextTransparency = Window.Hidden and 1 or 0 }
+			):Play()
+			
+			ContentFrame.Visible = not Window.Hidden
 		end
 
 		if ValidateInputType(InputType) and WindowFrame.GuiState == Enum.GuiState.Press then
