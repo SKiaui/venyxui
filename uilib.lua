@@ -1,4 +1,4 @@
--- @ doom.dtw | 3:22 PM 2/6/25
+--- @ doom.dtw | 1.5
 -- @ This UI uses SafeLoad V1. Will bypass most CoreGui checks. (ex: Peroxide, Da Hood)
 
 -- $ VARIABLES
@@ -73,8 +73,8 @@ function EncryptedString()
 end
 
 function SafeLoad(instance : Instance, encrypt_names : boolean)
-	
-	
+
+
 	if encrypt_names then
 		for _,__ in ipairs(instance:GetDescendants()) do
 			__.Name = EncryptedString()
@@ -82,7 +82,7 @@ function SafeLoad(instance : Instance, encrypt_names : boolean)
 	end
 
 	local ElevationAllowed = pcall(function() local a = cloneref(game:GetService("CoreGui")):GetFullName() end)
-	instance.Parent = ElevationAllowed and Services.CoreGui --or game.Players.LocalPlayer.PlayerGui
+	instance.Parent = ElevationAllowed and Services.CoreGui -->> or game.Players.LocalPlayer.PlayerGui
 end
 
 -- $ LIBRARY
@@ -102,10 +102,10 @@ function Vigil.new(Name, ...)
 	local UI_FramePos = nil;
 	local UI_DeltaPos = nil;
 	local Window, Meta = {
+		ToggleKey = nil;
 		Hidden = false;
 		Pages = {};
 	}, {
-		ToggleKey = nil;
 		Anchor = Vector2.new(.5, .5);
 		Size = UDim2.new(0, 600, 0, 526);
 		Pos = UDim2.new(0.809, 0, 0.75, 0);
@@ -151,23 +151,25 @@ function Vigil.new(Name, ...)
 
 	InputService.InputBegan:Connect(function(Input)
 		local InputType = Input.UserInputType
-		
-		if Input.KeyCode == Meta.ToggleKey then
-			Window.Hidden = not Window.Hidden
-			
-			TweenService:Create(
-				WindowFrame,
-				tween_info.new(.25, easing_style.Quad, easing_direction.InOut),
-				{ Size = Window.Hidden and UDim2.new(Meta.Size.X.Scale, Meta.Size.X.Offset, 0, 0) or Meta.Size }
-			):Play()
 
-			TweenService:Create(
-				TitleTextLabel,
-				tween_info.new(.25, easing_style.Quad, easing_direction.InOut),
-				{ TextTransparency = Window.Hidden and 1 or 0 }
-			):Play()
-			
-			ContentFrame.Visible = not Window.Hidden
+		if Input.KeyCode == Window.ToggleKey then
+			if not game:GetService('UserInputService'):GetFocusedTextBox() then
+				Window.Hidden = not Window.Hidden
+
+				TweenService:Create(
+					WindowFrame,
+					tween_info.new(.25, easing_style.Quad, easing_direction.InOut),
+					{ Size = Window.Hidden and UDim2.new(Meta.Size.X.Scale, Meta.Size.X.Offset, 0, 0) or Meta.Size }
+				):Play()
+
+				TweenService:Create(
+					TitleTextLabel,
+					tween_info.new(.25, easing_style.Quad, easing_direction.InOut),
+					{ TextTransparency = Window.Hidden and 1 or 0 }
+				):Play()
+
+				ContentFrame.Visible = not Window.Hidden
+			end
 		end
 
 		if ValidateInputType(InputType) and WindowFrame.GuiState == Enum.GuiState.Press then
@@ -266,8 +268,33 @@ function Vigil.new(Name, ...)
 			local SectionLabel = AddInstance("TextLabel", { Parent = SectionFrame, Name = [[SectionLabel]], TextWrapped = true, BorderSizePixel = 0, TextYAlignment = Enum.TextYAlignment.Top, TextScaled = true, BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0.5, 0.5), TextSize = 14, Size = UDim2.new(1, 0, 0, 14), LayoutOrder = -1, TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = SectionName, FontFace = Font.new('rbxasset://fonts/families/GothamSSm.json', Enum.FontWeight.SemiBold, Enum.FontStyle.Normal), Position = UDim2.new(0.500000298, 0, 0.0535870567, 0), TextColor3 = Color3.fromRGB(172, 172, 172), BackgroundTransparency = 1,})
 			local UIListLayout = AddInstance("UIListLayout", { Parent = SectionFrame, Padding = UDim.new(0, 10), SortOrder = Enum.SortOrder.LayoutOrder, HorizontalAlignment = Enum.HorizontalAlignment.Center,})
 			local UIPadding = AddInstance("UIPadding", { Parent = SectionFrame, PaddingRight = UDim.new(0, 5), PaddingLeft = UDim.new(0, 5),})
-			
+
 			-- $$$$ Functions + Connections
+
+			function Section:addLabel(...)
+				-- $$$$$ Metadata
+				local Label, Meta = {}, {
+					title = 'Label';
+					callback = function()
+						print('Button does not have a callback binded.')
+					end,
+				}
+
+				Meta = TableOverwrite(Meta, ... or {})
+
+				-- $$$$$ Instances
+				local ButtonFrame = AddInstance("TextButton", { Parent = SectionFrame, AutoButtonColor = false, Name = [[ButtonFrame]], BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(39, 39, 39), TextSize = 14, Size = UDim2.new(1, 0, 0, 30), BorderColor3 = Color3.fromRGB(0, 0, 0), TextTransparency = 1, Font = Enum.Font.SourceSans, TextColor3 = Color3.fromRGB(0, 0, 0),})
+				local UICorner = AddInstance("UICorner", { Parent = ButtonFrame, CornerRadius = UDim.new(0, 4),})
+				local UIPadding = AddInstance("UIPadding", { Parent = ButtonFrame, PaddingRight = UDim.new(0, 3), PaddingLeft = UDim.new(0, 10),})
+				local UIStroke = AddInstance("UIStroke", { Parent = ButtonFrame, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Thickness = 2, Color = Color3.fromRGB(68, 68, 68),})
+				local ButtonLabel = AddInstance("TextBox", { Parent = ButtonFrame, Name = [[ButtonLabel]], TextEditable = false, ClearTextOnFocus = false, TextWrapped = true, BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0, 0.5), TextSize = 16, Size = UDim2.new(0.5, 0, 1, 0), TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = Meta.title, Font = Enum.Font.GothamMedium, Position = UDim2.new(0, 0, 0.5, 0), TextColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1,})
+
+				-- $$$$$ Functions + Connections
+				function Label:updateText(newText)
+					ButtonLabel.Text = newText
+				end
+			end
+			
 			function Section:addButton(...)
 				-- $$$$$ Metadata
 				local Button, Meta = {}, {
@@ -276,16 +303,16 @@ function Vigil.new(Name, ...)
 						print('Button does not have a callback binded.')
 					end,
 				}
-				
+
 				Meta = TableOverwrite(Meta, ... or {})
-				
+
 				-- $$$$$ Instances
 				local ButtonFrame = AddInstance("TextButton", { Parent = SectionFrame, AutoButtonColor = false, Name = [[ButtonFrame]], BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(39, 39, 39), TextSize = 14, Size = UDim2.new(1, 0, 0, 30), BorderColor3 = Color3.fromRGB(0, 0, 0), TextTransparency = 1, Font = Enum.Font.SourceSans, TextColor3 = Color3.fromRGB(0, 0, 0),})
 				local UICorner = AddInstance("UICorner", { Parent = ButtonFrame, CornerRadius = UDim.new(0, 4),})
 				local UIPadding = AddInstance("UIPadding", { Parent = ButtonFrame, PaddingRight = UDim.new(0, 3), PaddingLeft = UDim.new(0, 10),})
 				local UIStroke = AddInstance("UIStroke", { Parent = ButtonFrame, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Thickness = 2, Color = Color3.fromRGB(68, 68, 68),})
 				local ButtonLabel = AddInstance("TextLabel", { Parent = ButtonFrame, Name = [[ButtonLabel]], TextWrapped = true, BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0, 0.5), TextSize = 16, Size = UDim2.new(0.5, 0, 1, 0), TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = Meta.title, Font = Enum.Font.GothamMedium, Position = UDim2.new(0, 0, 0.5, 0), TextColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1,})
-				
+
 				-- $$$$$ Functions + Connections
 				ButtonFrame.MouseButton1Down:Connect(function()
 					TweenService:Create(
@@ -294,7 +321,7 @@ function Vigil.new(Name, ...)
 						{ Size = UDim2.new(1, -4, 0, 28), BackgroundColor3 = Color3.fromRGB(49,49,49) }
 					):Play()
 				end)
-				
+
 				ButtonFrame.MouseButton1Up:Connect(function()
 					TweenService:Create(
 						ButtonFrame,
@@ -302,7 +329,7 @@ function Vigil.new(Name, ...)
 						{ Size = UDim2.new(1, 0, 0, 30), BackgroundColor3 = Color3.fromRGB(39,39,39) }
 					):Play()
 				end)
-				
+
 				ButtonFrame.MouseLeave:Connect(function()
 					TweenService:Create(
 						ButtonFrame,
@@ -310,10 +337,10 @@ function Vigil.new(Name, ...)
 						{ Size = UDim2.new(1, 0, 0, 30), BackgroundColor3 = Color3.fromRGB(39,39,39) }
 					):Play()
 				end)
-				
+
 				ButtonFrame.MouseButton1Click:Connect(Meta.callback)
 			end
-			
+
 			function Section:addKeybind(...)
 				-- $$$$$ Metadata
 				local Keybind, Meta = { Key = nil; Pressed = false; }, {
@@ -449,7 +476,7 @@ function Vigil.new(Name, ...)
 				}
 
 				Meta = TableOverwrite(Meta, ... or {})
-				if Meta.default > Meta.min then Meta.default = Meta.min end
+				if Meta.default < Meta.min then Meta.default = Meta.min end
 
 				-- $$$$$ Instances
 				local SliderFrame = AddInstance("Frame", { Parent = SectionFrame, Name = [[SliderFrame]], BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 30), BorderColor3 = Color3.fromRGB(0, 0, 0), BackgroundColor3 = Color3.fromRGB(39, 39, 39),})
@@ -561,7 +588,7 @@ function Vigil.new(Name, ...)
 				local OptionFrame = AddInstance("Frame", { Parent = DropdownFrame, AutomaticSize = Enum.AutomaticSize.Y, Name = [[OptionFrame]], Visible = false; BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), LayoutOrder = 1, Position = UDim2.new(0, 0, 0, 30), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 				local TopbarFrame = AddInstance("Frame", { Parent = DropdownFrame, Name = [[TopbarFrame]], BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 30), BorderColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 1, BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
 				local DropdownButton = AddInstance("ImageButton", { Parent = TopbarFrame, Name = [[DropdownButton]], BackgroundTransparency = 1, AnchorPoint = Vector2.new(1, 0), Image = [[rbxassetid://76471184936187]], BorderSizePixel = 0, Size = UDim2.new(0, 8, 0, 8), BorderColor3 = Color3.fromRGB(0, 0, 0), Position = UDim2.new(1, 0, 0, 11), BackgroundColor3 = Color3.fromRGB(255, 255, 255),})
-				local DropdownLabel = AddInstance("TextLabel", { Parent = TopbarFrame, Name = [[DropdownLabel]], TextWrapped = false, BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(255, 255, 255), TextSize = 16, Size = UDim2.new(0.5, 0, 0, 30), TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = Meta.title, Font = Enum.Font.GothamMedium, TextColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1,})
+				local DropdownLabel = AddInstance("TextBox", { Parent = TopbarFrame, PlaceholderText = Meta.title, PlaceholderColor3 = Color3.fromRGB(255,255,255), ZIndex = 100, Active = true, Selectable = true, Name = [[DropdownLabel]], TextWrapped = false, BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(255, 255, 255), TextSize = 16, Size = UDim2.new(0.5, 0, 0, 30), TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = Meta.title, Font = Enum.Font.GothamMedium, TextColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1,})
 				local DropdownHitbox = AddInstance("TextButton", { Parent = TopbarFrame, ZIndex = 99, BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(255, 255, 255), AnchorPoint = Vector2.new(0.5, 0.5), TextSize = 14, Size = UDim2.new(1, 0, 1, 0), BorderColor3 = Color3.fromRGB(0, 0, 0), TextTransparency = 1, Font = Enum.Font.SourceSans, Position = UDim2.new(0.5, 0, 0.5, 0), TextColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 1,})
 				AddInstance("UIListLayout", { Parent = OptionFrame, Padding = UDim.new(0, 0), SortOrder = Enum.SortOrder.LayoutOrder,})
 				AddInstance("UIListLayout", { Parent = DropdownFrame, SortOrder = Enum.SortOrder.LayoutOrder,})
@@ -634,6 +661,17 @@ function Vigil.new(Name, ...)
 				end
 
 				-- $$$$$ Functions + Connections
+				DropdownLabel.FocusLost:Connect(function()
+					--DropdownLabel.Text = Meta.title
+					
+					--task.wait()
+					--for _, Option in OptionFrame:GetChildren() do
+					--	if Option:IsA('TextButton') then
+					--		Option.Visible = true
+					--	end
+					--end
+				end)
+
 				function Dropdown:addOption(Option)
 					table.insert(Meta.list, Option)
 					local OptionButton = AddInstance("TextButton", { Parent = OptionFrame, Name = [[OptionButton]],  TextYAlignment = Enum.TextYAlignment.Top; TextWrapped = false, BorderSizePixel = 0, BackgroundColor3 = Color3.fromRGB(255, 255, 255), TextSize = 14, Size = UDim2.new(1, 0, 0, 15), TextXAlignment = Enum.TextXAlignment.Left, BorderColor3 = Color3.fromRGB(0, 0, 0), Text = [[Option1]], Font = Enum.Font.Gotham, TextColor3 = Color3.fromRGB(164, 164, 164), BackgroundTransparency = 1,})
@@ -694,8 +732,13 @@ function Vigil.new(Name, ...)
 
 				DropdownHitbox.MouseButton1Click:Connect(function()
 					Dropdown.Dropped = not Dropdown.Dropped
-					DropdownButton.Rotation = Dropdown.Dropped and 180 or 0
 					OptionFrame.Visible = Dropdown.Dropped
+					
+					TweenService:Create(
+						DropdownButton,
+						tween_info.new(.2, easing_style.Quad, easing_direction.InOut),
+						{ Rotation = Dropdown.Dropped and 90 or 0 }
+					):Play()
 
 					for _, Button in OptionFrame:GetChildren() do
 						if Button:IsA('TextButton') then
@@ -709,6 +752,20 @@ function Vigil.new(Name, ...)
 									TextTransparency = 0,
 								}
 							):Play()
+						end
+					end
+				end)
+				
+				DropdownLabel.Changed:Connect(function()
+					if DropdownLabel.Text == Meta.Title then return end
+					
+					for _, Option in OptionFrame:GetChildren() do
+						if Option:IsA('TextButton') and DropdownLabel.Text ~= Meta.title and Dropdown.Dropped then
+							Option.Visible = false
+						
+							if Option.Text:match(DropdownLabel.Text) then
+								Option.Visible = true
+							end
 						end
 					end
 				end)
@@ -738,8 +795,21 @@ function Vigil.new(Name, ...)
 				AddInstance("UIStroke", { Parent = ToggleFrame, Thickness = 2, Color = Color3.fromRGB(68, 68, 68),})
 				AddInstance("UIPadding", { Parent = ToggleButton, PaddingRight = UDim.new(0, 3), PaddingLeft = UDim.new(0, 3),})
 				AddInstance("UIPadding", { Parent = ToggleFrame, PaddingRight = UDim.new(0, 10), PaddingLeft = UDim.new(0, 10),})
-				
+
 				-- $$$$$ Functions + Connections
+				if Meta.toggled then
+					Toggle.Value = true
+					Meta.callback(Toggle.Value)
+					
+					TweenService:Create(
+						ToggleCircle,
+						TweenInfo.new(.1, easing_style.Quad, easing_direction.InOut), {
+							Position = Toggle.Value and UDim2.new(1,0,0.5,0) or UDim2.new(0,0,0.5,0);
+							AnchorPoint = Toggle.Value and Vector2.new(1,0.5) or Vector2.new(0,0.5);
+						}
+					):Play()
+				end
+				
 				ToggleHitbox.MouseButton1Down:Connect(function()
 					TweenService:Create(
 						ToggleFrame,
@@ -763,7 +833,7 @@ function Vigil.new(Name, ...)
 						{ Size = UDim2.new(1, 0, 0, 30), BackgroundColor3 = Color3.fromRGB(39,39,39) }
 					):Play()
 				end)
-				
+
 				ToggleHitbox.MouseButton1Click:Connect(function()
 					Toggle.Value = not Toggle.Value
 					Meta.callback(Toggle.Value)
